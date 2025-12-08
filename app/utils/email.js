@@ -118,6 +118,8 @@ module.exports = (app) => {
 
         let hash = obj.hash
 
+        const baseUrl = process.env.BASE_URL || 'https://academicosolident.com.br';
+
         let retorno = await email.send({
             template: 'senha',
             message: {
@@ -126,7 +128,7 @@ module.exports = (app) => {
             },
             locals: {
                 nome: aluno.nome + ' ' + aluno.sobrenome,
-                link: process.env.BASE_URL + '/trocar-senha/' + hash
+                link: `${baseUrl}/trocar-senha/` + hash
             },
         });
 
