@@ -5,26 +5,56 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      # Build 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
         with:
-          node-version: '18'
-      - run: npm ci # ou yarn
-      - run: npm run build # ou seu comando de build
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Deploy via SCP
-      - name: Deploy files to VPS
-        uses: appleboy/scp-action@v0.1.7
+      - name: Extract image metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/site-academico-servidor
+          tags: |
+            type=raw,value=latest
+            type=sha
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Restart container on VPS with pulled image
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           password: ${{ secrets.VPS_PASS }}
-          source: "build/"              
-          target: "/var/www/NOME-DO-PROJETO"
+          script: |
+            set -e
+            echo '${{ secrets.GHCR_TOKEN }}' | podman login ghcr.io -u '${{ secrets.GHCR_USERNAME }}' --password-stdin
+            podman pull ghcr.io/${{ github.repository_owner }}/site-academico-servidor:latest
+            podman stop site-academico-servidor || true
+            podman rm site-academico-servidor || true
+            podman run -d \
+              --name site-academico-servidor \
+              --restart=always \
+              -p 3002:3002 \
+              -e PORT=3002 \
+              ghcr.io/${{ github.repository_owner }}/site-academico-servidor:latest
