@@ -7,7 +7,7 @@ const express = require('express'),
     rateLimit = require("express-rate-limit"),
     history = require('connect-history-api-fallback'),
     cookieSession = require('cookie-session'),
-    port = 3002,
+    port = process.env.PORT || 3002,
     app = express();
 
 // const publicRoot = '/home/academico/www/'
