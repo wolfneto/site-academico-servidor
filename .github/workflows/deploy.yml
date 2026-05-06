@@ -51,8 +51,9 @@ jobs:
             set -e
             echo '${{ secrets.GHCR_TOKEN }}' | podman login ghcr.io -u '${{ secrets.GHCR_USERNAME }}' --password-stdin
             podman pull ghcr.io/${{ github.repository_owner }}/site-academico-servidor:latest
-            podman stop site-academico-servidor || true
-            podman rm site-academico-servidor || true
+            if podman container exists site-academico-servidor; then
+              podman rm -f site-academico-servidor
+            fi
             podman run -d \
               --name site-academico-servidor \
               --restart=always \
