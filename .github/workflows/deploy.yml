@@ -3,7 +3,7 @@ name: Deploy to VPS
 on:
   push:
     branches:
-      - main
+      - solident
 
 permissions:
   contents: read
@@ -43,10 +43,10 @@ jobs:
       - name: Restart container on VPS with pulled image
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.VPS_HOST }}
-          port: ${{ secrets.VPS_PORT }}
-          username: ${{ secrets.VPS_USER }}
-          password: ${{ secrets.VPS_PASS }}
+          host: ${{ secrets.VPS_HOST_SOLIDENT }}
+          port: ${{ secrets.VPS_PORT_SOLIDENT }}
+          username: ${{ secrets.VPS_USER_SOLIDENT }}
+          password: ${{ secrets.VPS_PASS_SOLIDENT }}
           script: |
             set -e
             echo '${{ secrets.GHCR_TOKEN }}' | podman login ghcr.io -u '${{ secrets.GHCR_USERNAME }}' --password-stdin
