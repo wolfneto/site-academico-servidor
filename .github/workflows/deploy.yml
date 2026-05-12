@@ -3,7 +3,7 @@ name: Deploy to VPS
 on:
   push:
     branches:
-      - main
+      - dental_academico
 
 permissions:
   contents: read
@@ -43,10 +43,10 @@ jobs:
       - name: Restart container on VPS with pulled image
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.VPS_HOST }}
-          port: ${{ secrets.VPS_PORT }}
-          username: ${{ secrets.VPS_USER }}
-          password: ${{ secrets.VPS_PASS }}
+          host: ${{ secrets.VPS_HOST_DENTAL_ACADEMICO }}
+          port: ${{ secrets.VPS_PORT_DENTAL_ACADEMICO }}
+          username: ${{ secrets.VPS_USER_DENTAL_ACADEMICO }}
+          password: ${{ secrets.VPS_PASS_DENTAL_ACADEMICO }}
           script: |
             set -e
             echo '${{ secrets.GHCR_TOKEN }}' | podman login ghcr.io -u '${{ secrets.GHCR_USERNAME }}' --password-stdin
