@@ -45,7 +45,7 @@ jobs:
         with:
           host: ${{ secrets.VPS_HOST_DENTAL_ACADEMICO }}
           port: ${{ secrets.VPS_PORT_DENTAL_ACADEMICO }}
-          username: ${{ secrets.PS_USER_DENTAL_ACADEMICO }}
+          username: ${{ secrets.VPS_USER_DENTAL_ACADEMICO }}
           password: ${{ secrets.VPS_PASS_DENTAL_ACADEMICO }}
           script: |
             set -e
