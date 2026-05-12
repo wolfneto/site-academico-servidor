@@ -44,7 +44,7 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST_DENTAL_ACADEMICO }}
-          port: ${{ secrets.VPS_PORT_SOLIDENT }}
+          port: ${{ secrets.VPS_PORT_DENTAL-ACADEMICO }}
           username: ${{ secrets.VPS_USER_DENTAL_ACADEMICO }}
           password: ${{ secrets.VPS_PASS_DENTAL_ACADEMICO }}
           script: |
