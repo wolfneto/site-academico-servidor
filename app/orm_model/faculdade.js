@@ -19,15 +19,7 @@ module.exports = (app) => {
             type: db.Sequelize.STRING,
             allowNull: false
         },
-        sigla: {
-            type: db.Sequelize.STRING,
-            allowNull: true
-        },
         grupo: {
-            type: db.Sequelize.INTEGER,
-            allowNull: true
-        },
-        ordem_site: {
             type: db.Sequelize.INTEGER,
             allowNull: true
         },
@@ -38,22 +30,6 @@ module.exports = (app) => {
         situacao_faculdade: {
             type: db.Sequelize.BOOLEAN,
             allowNull: false
-        },
-        mensagem: {
-            type: db.Sequelize.STRING,
-            allowNull: true
-        },
-        imagem_path: {
-            type: db.Sequelize.STRING,
-            allowNull: false
-        },
-        date_create: {
-            type: db.Sequelize.DATE,
-            allowNull: false
-        },
-        date_format: {
-            type: db.Sequelize.DATE,
-            allowNull: true
         },
     }, {
         // Other model options go here
