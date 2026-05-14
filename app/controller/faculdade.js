@@ -13,7 +13,6 @@ module.exports = (app) => {
                 },
                 order: [
                     ['status', 'DESC'],
-                    ['ordem_site', 'DESC'],
                     ['nome_exibicao_faculdade', 'ASC'],
                 ],
             });
