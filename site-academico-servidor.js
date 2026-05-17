@@ -68,5 +68,3 @@ consign({ cwd: 'app' })
 app.listen(port, () => {
     console.log(`servidor rodando no endereço: http://localhost:${port}`)
 })
-
-console.log("teste aaaaaaaaaa");
