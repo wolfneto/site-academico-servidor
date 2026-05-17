@@ -25,7 +25,7 @@ const limiter = rateLimit({
     max: 1000 // limit each IP to 100 requests per windowMs
 });
 
-var allowedOrigins = ['https://academicosolident.com.br', 'https://solident.com.br'];
+var allowedOrigins = ['https://dentalacademico.com.br', 'http://dentalacademico.com.br'];
 
 app.use(cors({
     credentials: true,
