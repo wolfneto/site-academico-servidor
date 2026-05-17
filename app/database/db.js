@@ -8,7 +8,7 @@ module.exports = (app) => {
         process.env.DB_USER || "root",
         process.env.DB_PASSWORD || "AS#cc69-4943-bb*du",
         {
-        host: process.env.DB_HOST || "mysqld",
+        host: process.env.DB_HOST || "localhost",
         port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306,
         dialect: 'mysql',
         // dialectOptions: {
