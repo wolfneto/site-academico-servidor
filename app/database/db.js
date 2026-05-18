@@ -41,7 +41,7 @@ module.exports = (app) => {
 
   // Sync models after delay to allow all models to be loaded
   setTimeout(() => {
-    sequelize.sync({ alter: true })
+    sequelize.sync({ force: false })
       .then(() => {
         console.log(`[DATABASE] ✓ Models synced: ${process.env.DB_NAME || 'site_academico'}`);
       })
