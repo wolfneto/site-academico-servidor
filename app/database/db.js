@@ -1,52 +1,55 @@
 const Sequelize = require('sequelize');
 
 module.exports = (app) => {
-    const db = {};
+  const db = {};
 
-    const sequelize = new Sequelize(
-        process.env.DB_NAME || "site_academico",
-        process.env.DB_USER || "root",
-        process.env.DB_PASSWORD || "AS#cc69-4943-bb*du",
-        {
-        host: process.env.DB_HOST || "mysql",
-        port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306,
-        dialect: 'mysql',
-        // dialectOptions: {
-        //     dateStrings: true,
-        //     typeCast: true
-        // },
-        //timezone: '-02:00', //for writing to database
-        pool: {
-            max: 5,
-            min: 0,
-            acquire: 30000,
-            idle: 10000
-        }
+  const sequelize = new Sequelize(
+    process.env.DB_NAME || "site_academico",
+    process.env.DB_USER || "root",
+    process.env.DB_PASSWORD || "AS#cc69-4943-bb*du",
+    {
+      host: process.env.DB_HOST || "mysql",
+      port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306,
+      dialect: 'mysql',
+      dialectOptions: {
+        charset: 'utf8mb4'
+      },
+      define: {
+        charset: 'utf8mb4',
+        collation: 'utf8mb4_unicode_ci'
+      },
+      timezone: '-03:00',
+      pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+      }
     })
 
-    db.sequelize = sequelize
-    db.Sequelize = Sequelize
+  db.sequelize = sequelize
+  db.Sequelize = Sequelize
 
-    // Test connection
-    sequelize.authenticate()
-        .then(() => {
-            console.log(`[DATABASE] ✓ Connection successful: ${process.env.DB_NAME || 'site_academico'}@${process.env.DB_HOST || 'mysql'}`);
-        })
-        .catch((error) => {
-            console.error(`[DATABASE ERROR] ✗ Connection failed:`, error.message);
-        });
+  // Test connection
+  sequelize.authenticate()
+    .then(() => {
+      console.log(`[DATABASE] ✓ Connection successful: ${process.env.DB_NAME || 'site_academico'}@${process.env.DB_HOST || 'mysql'}`);
+    })
+    .catch((error) => {
+      console.error(`[DATABASE ERROR] ✗ Connection failed:`, error.message);
+    });
 
-    // Sync models after delay to allow all models to be loaded
-    setTimeout(() => {
-        sequelize.sync({ alter: true })
-            .then(() => {
-                console.log(`[DATABASE] ✓ Models synced: ${process.env.DB_NAME || 'site_academico'}`);
-            })
-            .catch((error) => {
-                console.error(`[DATABASE ERROR] ✗ Sync failed:`, error.message);
-            });
-    }, 2000);
+  // Sync models after delay to allow all models to be loaded
+  setTimeout(() => {
+    sequelize.sync({ alter: true })
+      .then(() => {
+        console.log(`[DATABASE] ✓ Models synced: ${process.env.DB_NAME || 'site_academico'}`);
+      })
+      .catch((error) => {
+        console.error(`[DATABASE ERROR] ✗ Sync failed:`, error.message);
+      });
+  }, 2000);
 
-    return db;
+  return db;
 
 }
