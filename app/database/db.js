@@ -5,14 +5,15 @@ module.exports = (app) => {
 
   const sequelize = new Sequelize(
     process.env.DB_NAME || "site_academico",
-    process.env.DB_USER || "root",
-    process.env.DB_PASSWORD || "AS#cc69-4943-bb*du",
+    process.env.DB_USER || "solident",
+    process.env.DB_PASSWORD || "Sol!15King",
     {
       host: process.env.DB_HOST || "mysql",
       port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306,
       dialect: 'mysql',
       dialectOptions: {
-        charset: 'utf8mb4'
+        charset: 'utf8mb4',
+        initSql: 'SET NAMES utf8mb4'
       },
       define: {
         charset: 'utf8mb4',
