@@ -287,6 +287,10 @@ module.exports = (app) => {
   async function validate(id_semestre) {
     let obj = { faculdade: false, semestre: false, valid: false };
 
+    if (id_semestre == null) {
+      return obj;
+    }
+
     let semestre = await semestreModel.semestres.findOne({
       include: [
         {
@@ -295,11 +299,6 @@ module.exports = (app) => {
             status_periodo: "1",
             situacao_periodo: "1",
           },
-          include: [
-            {
-              model: vendedorModel.vendedores,
-            },
-          ],
         },
       ],
       where: {
