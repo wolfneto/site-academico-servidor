@@ -5,17 +5,21 @@ module.exports = (app) => {
 
     this.getAvisos = async function (req, res) {
         try {
+            if (!req.query.data) {
+                return res.status(400).send(crypto.encrypt([], true))
+            }
+
             let data = crypto.decrypt(req.query.data, true)
 
-            let id_semestre_aviso = data.id_semestre_aviso;
-            let id_faculdade_aviso = data.id_faculdade_aviso;
+            let where = {};
+            if (data.id_semestre_aviso != null) where.id_semestre_aviso = data.id_semestre_aviso;
+            if (data.id_faculdade_aviso != null) where.id_faculdade_aviso = data.id_faculdade_aviso;
 
-            let avisos = await avisoModel.aviso.findAll({
-                where: {
-                    id_semestre_aviso: id_semestre_aviso,
-                    id_faculdade_aviso: id_faculdade_aviso,
-                }
-            });
+            if (Object.keys(where).length === 0) {
+                return res.status(400).send(crypto.encrypt([], true))
+            }
+
+            let avisos = await avisoModel.aviso.findAll({ where });
 
             res.send(crypto.encrypt(avisos, true))
         } catch (error) {
