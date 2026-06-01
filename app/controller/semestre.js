@@ -12,7 +12,7 @@ module.exports = (app) => {
 
     this.getSemestres = async function (req, res) {
         try {
-            if (!req.query.data) return res.status(400).send(crypto.encrypt({ error: 'Missing data parameter' }, true));
+            if (!req.query.data) return res.send(crypto.encrypt({ graduacao: [], especializacao: [] }, true));
             let id_faculdade = crypto.decrypt(req.query.data, true);
             let semestres = await semestreModel.semestres.findAll({
                 include: {
