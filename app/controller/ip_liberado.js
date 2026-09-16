@@ -6,10 +6,19 @@ module.exports = (app) => {
     this.getIpLiberado = async function (req, res) {
         try {
             let ips_liberados = await ip_liberadoModel.ip_liberado.findOne();
-            res.send(crypto.encrypt(ips_liberados, true))
+
+            if (!ips_liberados) {
+                ips_liberados = await ip_liberadoModel.ip_liberado.create({
+                    id: 1,
+                    ip: ""
+                });
+            }
+
+            const payload = ips_liberados?.dataValues || ips_liberados;
+            res.send(crypto.encrypt(payload, true));
         } catch (error) {
             console.log(error);
-            res.status(500).send()
+            res.send(crypto.encrypt({ id: 1, ip: "" }, true));
         }
     }
     return this;
