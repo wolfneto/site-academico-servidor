@@ -7,10 +7,18 @@ module.exports = (app) => {
         try {
             let manutencao = await manutencaoModel.manutencao.findOne({});
 
-            res.send(crypto.encrypt(manutencao, true))
+            if (!manutencao) {
+                manutencao = await manutencaoModel.manutencao.create({
+                    manutencao: 0,
+                    msg_manutencao: ''
+                });
+            }
+
+            const payload = manutencao?.dataValues || manutencao;
+            res.send(crypto.encrypt(payload, true));
         } catch (error) {
             console.log(error);
-            res.status(500).send()
+            res.status(500).send();
         }
     }
 
