@@ -4,7 +4,7 @@ module.exports = (app) => {
     const db = {};
 
     const sequelize = new Sequelize("solident_academico", "solident", "Sol!15King", {
-        host: "mysql.solident.com.br",
+        host: "mysql://root:GhiNXhzvexUsqgBpUhonfPVOUruDkpqs@mysql.railway.internal:3306/railway",
         dialect: 'mysql',
         // dialectOptions: {
         //     dateStrings: true,
