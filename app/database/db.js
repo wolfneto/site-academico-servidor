@@ -3,7 +3,8 @@ const Sequelize = require('sequelize');
 module.exports = (app) => {
     const db = {};
 
-    const databaseName = process.env.DB_ACADEMICO_DATABASE || process.env.MYSQLDATABASE || "solident_academico";
+    // MYSQLDATABASE/MYSQL_URL apontam para o banco genérico do plugin Railway ("railway"), não para o banco acadêmico.
+    const databaseName = process.env.DB_ACADEMICO_DATABASE || "site_academico";
 
     let mysqlUrlConfig = {};
     if (process.env.MYSQL_URL) {

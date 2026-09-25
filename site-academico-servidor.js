@@ -69,4 +69,21 @@ app.listen(port, () => {
     console.log(`servidor rodando no endereço: http://localhost:${port}`)
 })
 
+// Cria automaticamente tabelas definidas nos orm_model que ainda não existem no banco (sem alterar/dropar as existentes).
+// Sincroniza modelo a modelo para que uma falha de FK em uma tabela não impeça a criação das demais.
+if (process.env.DB_SYNC === "true") {
+    const { sequelize } = app.database.db;
+    (async () => {
+        for (const modelName of Object.keys(sequelize.models)) {
+            try {
+                await sequelize.models[modelName].sync({ force: false });
+                console.log(`[DATABASE] ✓ Tabela sincronizada: ${modelName}`);
+            } catch (error) {
+                console.error(`[DATABASE] ✗ Falha ao sincronizar ${modelName}: ${error.message}`);
+            }
+        }
+        console.log("[DATABASE] Sincronização de tabelas concluída (site_academico)");
+    })();
+}
+
 console.log("teste aaaaaaaaaa");
