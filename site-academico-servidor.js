@@ -86,4 +86,31 @@ if (process.env.DB_SYNC === "true") {
     })();
 }
 
+// Adiciona apenas colunas ausentes em tabelas já existentes (nunca altera, remove ou renomeia colunas atuais).
+if (process.env.DB_ADD_MISSING_COLUMNS === "true") {
+    const { sequelize } = app.database.db;
+    (async () => {
+        const queryInterface = sequelize.getQueryInterface();
+        for (const modelName of Object.keys(sequelize.models)) {
+            const model = sequelize.models[modelName];
+            const tableName = model.getTableName();
+            try {
+                const existingColumns = await queryInterface.describeTable(tableName);
+                for (const [attrName, attribute] of Object.entries(model.rawAttributes)) {
+                    const columnName = attribute.field || attrName;
+                    if (existingColumns[columnName]) continue;
+                    await queryInterface.addColumn(tableName, columnName, {
+                        type: attribute.type,
+                        allowNull: attribute.allowNull !== false,
+                    });
+                    console.log(`[DATABASE] ✓ Coluna adicionada: ${tableName}.${columnName}`);
+                }
+            } catch (error) {
+                console.error(`[DATABASE] ✗ Falha ao verificar/adicionar colunas em ${tableName}: ${error.message}`);
+            }
+        }
+        console.log("[DATABASE] Verificação de colunas ausentes concluída");
+    })();
+}
+
 console.log("teste aaaaaaaaaa");
