@@ -25,6 +25,8 @@ const limiter = rateLimit({
     max: 1000 // limit each IP to 100 requests per windowMs
 });
 
+app.set('trust proxy', 1); // Trust first proxy for secure cookies behind a reverse proxy
+
 var allowedOrigins = ['https://academicosolident.com.br', 'https://solident.com.br'];
 
 app.use(cors({
