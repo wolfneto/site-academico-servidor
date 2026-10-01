@@ -47,8 +47,12 @@ app.use(busboy());
 app.use(express.json({ limit: '200mb' }))
 app.use(cookieSession({
     name: 'slt_cookie',
-    keys: ['46586c4404172f546540eeb20e'],
+    keys: [process.env.SESSION_KEY],
     maxAge: 24 * 60 * 60 * 1000, // 24 horas
+    httpOnly: true,
+    secure: true,
+    sameSite: "none"
+
 }));
 app.use(xss());
 app.use(helmet());
