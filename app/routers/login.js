@@ -15,6 +15,10 @@ module.exports = (app) => {
                 return res.send({ success: false, error: false });
             }
             req.login(user, err => {
+                if (err) {
+                    console.error(err);
+                    return res.send({ success: false, error: true });
+                }
                 //sucesso
                 user.success = true;
                 res.send(user);
