@@ -28,19 +28,13 @@ const limiter = rateLimit({
 var allowedOrigins = ['https://academicosolident.com.br', 'https://solident.com.br'];
 
 app.use(cors({
-    credentials: true,
-    origin: function(origin, callback) {
-        console.log('oporra', origin);
-        // allow requests with no origin
-        // (like mobile apps or curl requests)
-        if (!origin || origin == undefined) return callback(null, true);
-        // if (allowedOrigins.indexOf(origin) === -1) {
-        //     var msg = 'The CORS policy for this site does not ' +
-        //         'allow access from the specified Origin.';
-        //     return callback(new Error(msg), false);
-        // }
-        return callback(null, true);
-    },
+  credentials: true,
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error("Origin não autorizada"));
+  },
 }));
 
 app.use(busboy());
