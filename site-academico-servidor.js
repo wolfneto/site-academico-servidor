@@ -110,5 +110,3 @@ if (process.env.DB_ADD_MISSING_COLUMNS === "true") {
         console.log("[DATABASE] Verificação de colunas ausentes concluída");
     })();
 }
-
-console.log("teste aaaaaaaaaa");
